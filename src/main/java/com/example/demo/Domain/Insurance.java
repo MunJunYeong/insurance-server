@@ -4,22 +4,16 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Getter
-@Setter
 @Data
-public class Insurance {
+@Inheritance(strategy = InheritanceType.JOINED) // join방식으로 상속을 매핑한다.
+public abstract class Insurance {
     @Id
-    @GeneratedValue(
-            strategy= GenerationType.SEQUENCE, //사용할 전략을 시퀀스로  선택
-            generator="USER_SEQ_GEN" //식별자 생성기를 설정해놓은  USER_SEQ_GEN으로 설정
-    )
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long insuranceIdx;
     private String restriction;
     private Date period;
@@ -27,3 +21,4 @@ public class Insurance {
     private String guaranteedContent;
     private int rate;
 }
+

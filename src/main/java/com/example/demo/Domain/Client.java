@@ -11,14 +11,10 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@Setter
 @Data
 public class Client {
     @Id
-    @GeneratedValue(
-            strategy= GenerationType.SEQUENCE, //사용할 전략을 시퀀스로  선택
-            generator="USER_SEQ_GEN" //식별자 생성기를 설정해놓은  USER_SEQ_GEN으로 설정
-    )
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long clientIdx;
 
     private String id;
