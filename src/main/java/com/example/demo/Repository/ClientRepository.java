@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 
 @Repository
 @RequiredArgsConstructor // final이 붙어있으면 constructor을 안 만들어도 됨.
-
 public class ClientRepository {
     private final EntityManager em;
 
