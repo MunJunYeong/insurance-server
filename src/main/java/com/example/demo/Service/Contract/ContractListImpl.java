@@ -2,6 +2,7 @@ package com.example.demo.Service.Contract;
 
 import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Contract;
+import com.example.demo.Repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,18 +11,28 @@ import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true) // data 변경하는 부분 이노테이션
+@Transactional // data 변경하는 부분 이노테이션
 public class ContractListImpl implements  ContractList {
+    private final ContractRepository contractRepository;
 
     private final ArrayList<Contract> contractList;
+
+    @Override
+    public String getSuggestion(int clientIdx) {
+        return contractRepository.getSuggestion(clientIdx);
+    }
+    @Override
+    public String getSubscription(int clientIdx) {
+        return contractRepository.getSubscription(clientIdx);
+    }
 
     public ArrayList<Contract> select() {
         return contractList;
     }
 
-    public ContractListImpl() {
-        this.contractList = new ArrayList<Contract>();
-    }
+//    public ContractListImpl() {
+//        this.contractList = new ArrayList<Contract>();
+//    }
 
     public boolean delete(int contractId) {
         this.contractList.remove(contractId);

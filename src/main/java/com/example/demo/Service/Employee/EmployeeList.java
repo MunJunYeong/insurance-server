@@ -13,6 +13,8 @@ public interface EmployeeList {
     public ArrayList<Client> getAllClient();
     //제안서 등록하기
     public int postSuggestion(SuggestionForm suggestionForm);
+    //청약서 등록하기
+    public int postSubscription(SuggestionForm subscription);
     public ArrayList<Employee> select();
 
     public boolean add(Employee employee);
@@ -22,5 +24,6 @@ public interface EmployeeList {
     public boolean update(String TypeName, int Content, int index);
     public int ShowSize();
     public String getEmployeeList(int index);
+
 
 }

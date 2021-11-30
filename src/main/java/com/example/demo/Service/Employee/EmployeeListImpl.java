@@ -33,6 +33,12 @@ public class EmployeeListImpl implements  EmployeeList {
         return  employeeRepository.postSuggestion(suggestionForm);
     }
 
+
+    @Override
+    public int postSubscription(SuggestionForm subscription) {
+        return employeeRepository.postSubscription(subscription);
+    }
+
     public ArrayList<Employee> select() {
         return employeeList;
     }

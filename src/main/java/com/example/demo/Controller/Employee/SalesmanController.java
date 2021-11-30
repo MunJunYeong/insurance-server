@@ -24,6 +24,10 @@ public class SalesmanController {
         int idx = employeeList.postSuggestion(suggestionForm);
         return idx;
     }
-
+    @PostMapping("/addSubscription")
+    public int postSubscription(@RequestBody SuggestionForm subscription){
+        int idx = employeeList.postSubscription(subscription);
+        return idx;
+    }
 
 }

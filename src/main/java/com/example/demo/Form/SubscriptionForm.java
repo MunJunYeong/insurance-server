@@ -5,10 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SuggestionForm {
+public class SubscriptionForm {
     private int ContractIdx;
     private int EmployeeIdx;
     private int ClientIdx;
     private String content;
-    private String insuranceType;
 }

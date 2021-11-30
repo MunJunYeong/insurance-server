@@ -32,7 +32,7 @@ public class EmployeeRepository {
     public ArrayList<Client> findAllClient() {
         return (ArrayList<Client>) em.createQuery("select c from Client c", Client.class).getResultList();
     }
-
+    //////////////////////////////////////////////////////////////////////
     public int postSuggestion(SuggestionForm suggestionForm) {
         Contract contract = new Contract();
 
@@ -47,7 +47,7 @@ public class EmployeeRepository {
         contract.setInsurance(insurance.get());
         contract.setClient(client);
         em.persist(contract);
-        return  1;
+        return  contract.getContractIdx();
     }
 
     //보험찾는 로직
@@ -64,5 +64,21 @@ public class EmployeeRepository {
     }
     public Employee findEmployeeOne(int idx){
         return em.find(Employee.class, idx);
+    }
+    //////////////////////////////////////////////////////////////////////
+    public int postSubscription(SuggestionForm subscription) {
+        //clientIdx, ContractIdx, employeeIdx, 청약서
+        Contract contract = findContractOne(subscription.getContractIdx());
+        if(contract.getClient().getClientIdx() != subscription.getClientIdx()){
+            return -1;
+        }
+        if(contract.getEmployee().getEmployeeIdx() != subscription.getEmployeeIdx()){
+            return 0;
+        }
+        contract.setSubscription(subscription.getContent());
+        return contract.getContractIdx();
+    }
+    public Contract findContractOne(int idx){
+        return em.find(Contract.class, idx);
     }
 }

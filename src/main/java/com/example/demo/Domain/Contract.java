@@ -20,8 +20,8 @@ public class Contract {
     private String suggestion;
     private String subscription;
     private Date created;
-    private Boolean checkForm;
-    private Boolean checkMoney;
+    private Boolean checkForm = false;
+    private Boolean checkMoney = false;
 
     @ManyToOne
     @JoinColumn(name = "clientIdx")

@@ -6,6 +6,9 @@ import com.example.demo.Domain.Contract;
 import java.util.ArrayList;
 
 public interface ContractList {
+    public String getSuggestion(int clientIdx);
+    public String getSubscription(int clientIdx);
+
     public ArrayList<Contract> select();
     public boolean add(Contract contract);
     public boolean delete(int contractId);
@@ -20,4 +23,7 @@ public interface ContractList {
     public boolean setEmployee(int employeeIdx);
     public boolean FinalContract(boolean check);
     public void WriteProposal(String content);
+
+
+
 }
