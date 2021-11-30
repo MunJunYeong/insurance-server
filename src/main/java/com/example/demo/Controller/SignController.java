@@ -1,16 +1,20 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Domain.Client;
-import com.example.demo.Service.ClientService;
+import com.example.demo.Domain.LoginForm;
+import com.example.demo.Service.Client.ClientListImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Slf4j
 @RequiredArgsConstructor
+@RestController
 public class SignController {
-    private final ClientService clientService;
+    private final ClientListImpl clientService;
+
 
     @PostMapping("/signUp")
     public String signUp(@RequestBody Client client){
@@ -19,15 +23,13 @@ public class SignController {
     }
 
     @PostMapping("/client/signIn")
-    public String clientSignInForm(@RequestBody String obj ){
-        System.out.println(obj);
-        return null;
+    public Client clientSignInForm(@RequestBody LoginForm loginForm){
+        Client client = clientService.signIn(loginForm.getId(), loginForm.getPw());
+        log.info("client  {}", client);
+        return client;
     }
     @PostMapping("/admin/signIn")
     public String adminSignInForm(){
         return null;
     }
-
-
-
 }
