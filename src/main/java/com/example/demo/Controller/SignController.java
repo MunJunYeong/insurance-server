@@ -1,8 +1,10 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Domain.Client;
+import com.example.demo.Domain.Employee;
 import com.example.demo.Domain.LoginForm;
 import com.example.demo.Service.Client.ClientListImpl;
+import com.example.demo.Service.Employee.EmployeeListImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SignController {
     private final ClientListImpl clientService;
-
+    private final EmployeeListImpl employeeService;
 
     @PostMapping("/signUp")
     public String signUp(@RequestBody Client client){
@@ -29,7 +31,8 @@ public class SignController {
         return client;
     }
     @PostMapping("/admin/signIn")
-    public String adminSignInForm(){
-        return null;
+    public Employee adminSignInForm(@RequestBody LoginForm loginForm){
+        Employee employee = employeeService.signIn(loginForm.getId(), loginForm.getPw());
+        return employee;
     }
 }
