@@ -1,8 +1,8 @@
-package com.example.demo.Domain;
+package com.example.demo.Domain.Insurance;
 
+import com.example.demo.Domain.Insurance.Insurance;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
