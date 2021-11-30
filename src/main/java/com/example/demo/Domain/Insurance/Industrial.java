@@ -1,19 +1,19 @@
 package com.example.demo.Domain.Insurance;
 
-import com.example.demo.Domain.Insurance.Insurance;
 import lombok.Data;
 import lombok.Getter;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Entity
 @Getter
 @Data
-@DiscriminatorValue("Industrial")
+@DiscriminatorValue("industrial")
 public class Industrial extends Insurance {
     private String workplaceAddress;
-    private int businessNo;
+    private Integer businessNo;
     private String workplacePosition;
-    private int safeGrade;
+    private Integer safeGrade;
     private String workplaceType;
 }

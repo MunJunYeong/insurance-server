@@ -20,7 +20,7 @@ public class Employee {
     private String id;
     private String pw;
     private String name;
-    private int tel;
+    private Integer tel;
     private String role;
 
 //    @OneToMany

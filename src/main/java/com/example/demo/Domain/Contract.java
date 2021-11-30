@@ -25,13 +25,13 @@ public class Contract {
 
     @ManyToOne
     @JoinColumn(name = "clientIdx")
-    private Client clientIdx;
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "employeeIdx")
-    private Employee employeeIdx;
+    private Employee employee;
 
     @ManyToOne
     @JoinColumn(name = "insuranceIdx")
-    private Insurance insuranceIdx;
+    private Insurance insurance;
 }

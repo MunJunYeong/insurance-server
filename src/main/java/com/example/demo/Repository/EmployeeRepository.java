@@ -1,10 +1,15 @@
 package com.example.demo.Repository;
 
+import com.example.demo.Domain.Client;
+import com.example.demo.Domain.Contract;
 import com.example.demo.Domain.Employee;
+import com.example.demo.Domain.Insurance.Insurance;
+import com.example.demo.Form.SuggestionForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +27,42 @@ public class EmployeeRepository {
     }
     private List<Employee> findAll() {
         return em.createQuery("select e from Employee e", Employee.class).getResultList();
+    }
+    //모든 client찾기
+    public ArrayList<Client> findAllClient() {
+        return (ArrayList<Client>) em.createQuery("select c from Client c", Client.class).getResultList();
+    }
+
+    public int postSuggestion(SuggestionForm suggestionForm) {
+        Contract contract = new Contract();
+
+        Client client = findClientOne(suggestionForm.getClientIdx());
+        if(client == null){
+            return 0;
+        }
+        Employee employee = findEmployeeOne(suggestionForm.getEmployeeIdx());
+        Optional<Insurance> insurance = findByType(suggestionForm.getInsuranceType());
+        contract.setEmployee(employee);
+        contract.setSuggestion(suggestionForm.getContent());
+        contract.setInsurance(insurance.get());
+        contract.setClient(client);
+        em.persist(contract);
+        return  1;
+    }
+
+    //보험찾는 로직
+    private List<Insurance> findInsuranceAll() {
+        return em.createQuery("select i from Insurance i", Insurance.class).getResultList();
+    }
+    private Optional<Insurance> findByType(String insuranceType) {
+        return findInsuranceAll().stream().filter(
+                        i -> i.getDecriminatorValue().equals(insuranceType))
+                .findFirst();
+    }
+    public Client findClientOne(int idx) {
+        return em.find(Client.class, idx);
+    }
+    public Employee findEmployeeOne(int idx){
+        return em.find(Employee.class, idx);
     }
 }

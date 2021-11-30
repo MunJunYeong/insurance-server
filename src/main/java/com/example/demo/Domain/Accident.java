@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -15,21 +14,21 @@ import java.util.Date;
 public class Accident {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long accidentIdx;
+    private int accidentIdx;
     private String content;
-    private Date date;
-    private int damagePrice;
-    private int measuredPrice;
+    private String date;
+    private Integer damagePrice;
+    private Integer measuredPrice;
 
     @ManyToOne
     @JoinColumn(name = "clientIdx")
-    private Client clientIdx;
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "employeeIdx")
-    private Employee employeeIdx;
+    private Employee employee;
 
     @ManyToOne
     @JoinColumn(name = "insuranceIdx")
-    private Insurance insuranceIdx;
+    private Insurance insurance;
 }

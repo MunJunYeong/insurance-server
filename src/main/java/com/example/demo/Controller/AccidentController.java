@@ -25,7 +25,7 @@ public class AccidentController {
 
     @PostMapping("/report")
     public String report(@RequestParam Accident accident) {
-        accidentList.add(accident);
+//        accidentList.addAccident(accident);
         return "사고신고완료";
     }
 

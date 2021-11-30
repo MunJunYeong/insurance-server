@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -19,19 +18,24 @@ public abstract class Insurance {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int insuranceIdx;
     private String restriction;
-    private Date period;
-    private int fee;
+    private String period;
+    private Integer fee;
     private String guaranteedContent;
-    private int rate;
-    private int maximumReward;
+    private Integer rate;
+    private Integer maximumReward;
 
     @ManyToOne
     @JoinColumn(name = "employeeIdx")
-    private Employee employeeIdx;
+    private Employee employee;
 
 //    @OneToMany
 //    private List<Contract> insuranceContract;
 //    @OneToMany
 //    private List<Accident> insuranceAccident;
+
+    @Transient
+    public String getDecriminatorValue() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
+    }
 }
 

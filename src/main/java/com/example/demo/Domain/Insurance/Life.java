@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Data
-@DiscriminatorValue("Life")
+@DiscriminatorValue("life")
 public class Life extends Insurance {
-    private int healthGrade;
+    private Integer healthGrade;
 
 }

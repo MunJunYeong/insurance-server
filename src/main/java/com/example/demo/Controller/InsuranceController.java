@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/Insurance")
+@RequestMapping(value = "/insurance")
 public class InsuranceController {
 
 //    InsuranceDesign insuranceDesign = new InsuranceDesign();

@@ -8,9 +8,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Data
-@DiscriminatorValue("Car")
+@DiscriminatorValue("car")
 public class Car extends Insurance {
-    private int carNO;
-    private int accidentCount;
-    private int maxReward;
+    private Integer carNO;
+    private Integer accidentCount;
+    private Integer maxReward;
 }

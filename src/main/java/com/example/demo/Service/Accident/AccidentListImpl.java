@@ -2,6 +2,8 @@ package com.example.demo.Service.Accident;
 
 
 import com.example.demo.Domain.Accident;
+import com.example.demo.Form.AccidentForm;
+import com.example.demo.Repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,11 +12,16 @@ import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true) // data 변경하는 부분 이노테이션
+@Transactional() // data 변경하는 부분 이노테이션
 public class AccidentListImpl implements AccidentList {
 
     private final ArrayList<Accident> accidentList;
+    private final ClientRepository clientRepository;
 
+    public boolean addAccident(AccidentForm accident) {
+        clientRepository.postAccident(accident);
+        return true;
+    }
 
     @Override
     public ArrayList<Accident> select() {
@@ -30,10 +37,7 @@ public class AccidentListImpl implements AccidentList {
         return true;
     }
 
-    public boolean add(Accident accident) {
-        this.accidentList.add(accident);
-        return true;
-    }
+
 
     public int ShowSize() {
         return this.accidentList.size();

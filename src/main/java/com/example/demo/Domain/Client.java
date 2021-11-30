@@ -16,16 +16,16 @@ import javax.persistence.Id;
 public class Client {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long clientIdx;
+    private int clientIdx;
 
     private String id;
     private String pw;
     private String name;
     private String email;
-    private int ssn;
-    private int tel;
+    private Integer ssn;
+    private Integer tel;
     private String address;
-    private int age;
+    private Integer age;
     private String sex;
 
 

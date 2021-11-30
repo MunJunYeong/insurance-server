@@ -1,6 +1,8 @@
 package com.example.demo.Service.Employee;
 
+import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Employee;
+import com.example.demo.Form.SuggestionForm;
 import com.example.demo.Repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true) // data 변경하는 부분 이노테이션
+@Transactional // data 변경하는 부분 이노테이션
 public class EmployeeListImpl implements  EmployeeList {
     private final EmployeeRepository employeeRepository;
     private final ArrayList<Employee> employeeList;
@@ -20,6 +22,15 @@ public class EmployeeListImpl implements  EmployeeList {
         return employeeRepository.findByLoginId(id)
                 .filter(e -> e.getPw().equals(pw))
                 .orElse(null);
+    }
+
+    @Override
+    public ArrayList<Client> getAllClient() {
+        return employeeRepository.findAllClient();
+    }
+    @Override
+    public int postSuggestion(SuggestionForm suggestionForm) {
+        return  employeeRepository.postSuggestion(suggestionForm);
     }
 
     public ArrayList<Employee> select() {
@@ -97,4 +108,6 @@ public class EmployeeListImpl implements  EmployeeList {
 //        return List;
         return null;
     }
+
+
 }

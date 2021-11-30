@@ -2,7 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Employee;
-import com.example.demo.Domain.LoginForm;
+import com.example.demo.Form.LoginForm;
 import com.example.demo.Service.Client.ClientListImpl;
 import com.example.demo.Service.Employee.EmployeeListImpl;
 import lombok.RequiredArgsConstructor;
