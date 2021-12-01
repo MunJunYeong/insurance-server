@@ -1,5 +1,6 @@
 package com.example.demo.Service.Employee;
 
+import com.example.demo.Domain.Accident;
 import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Employee;
 import com.example.demo.Form.InsuranceForm;
@@ -21,15 +22,18 @@ public interface EmployeeList {
     ////////////////////////////designer////////////////////////////
     public int postInsurance(InsuranceForm insuranceForm);//보험 만들기
 
+
     ////////////////////////////uw////////////////////////////
     public int postUw(RuleForm ruleForm); //인수정책 수립
     public ArrayList<Client> getUwClient();
     public int postUwClient(int clientIdx);
 
+
     ////////////////////////////manager////////////////////////////
     public int postContractRule(RuleForm ruleForm); //계약관리 지침 작성
 
-
+    ////////////////////////////handler////////////////////////////
+    public ArrayList<Accident> getAccident();
 
 
 

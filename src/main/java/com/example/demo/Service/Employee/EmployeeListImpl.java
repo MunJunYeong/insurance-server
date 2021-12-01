@@ -1,10 +1,12 @@
 package com.example.demo.Service.Employee;
 
+import com.example.demo.Domain.Accident;
 import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Employee;
 import com.example.demo.Form.InsuranceForm;
 import com.example.demo.Form.RuleForm;
 import com.example.demo.Form.SuggestionForm;
+import com.example.demo.Repository.AccidentRepository;
 import com.example.demo.Repository.EmployeeRepository;
 import com.example.demo.Repository.InsuranceRepository;
 import com.example.demo.Repository.RuleRepository;
@@ -21,6 +23,7 @@ public class EmployeeListImpl implements  EmployeeList {
     private final EmployeeRepository employeeRepository;
     private final RuleRepository ruleRepository;
     private final InsuranceRepository insuranceRepository;
+    private final AccidentRepository accidentRepository;
 
 
     private final ArrayList<Employee> employeeList;//버려야됨
@@ -31,7 +34,7 @@ public class EmployeeListImpl implements  EmployeeList {
                 .filter(e -> e.getPw().equals(pw))
                 .orElse(null);
     }
-    //salesman
+    ////////////////////////////Salesman////////////////////////////
     @Override
     public ArrayList<Client> getAllClient() {
         return employeeRepository.findAllClient();
@@ -44,12 +47,13 @@ public class EmployeeListImpl implements  EmployeeList {
     public int postSubscription(SuggestionForm subscription) {
         return employeeRepository.postSubscription(subscription);
     }
-    //designer 보험 등록
+    ////////////////////////////designer////////////////////////////
     @Override
     public int postInsurance(InsuranceForm insuranceForm) {
         return insuranceRepository.postInsurance(insuranceForm);
     }
-    //uw 인수정책 저장
+
+    ////////////////////////////uw////////////////////////////
     @Override
     public int postUw(RuleForm ruleForm) {
         return ruleRepository.postUw(ruleForm);
@@ -63,11 +67,24 @@ public class EmployeeListImpl implements  EmployeeList {
         return employeeRepository.postUwClient(clientIdx);
     }
 
-    //manager 계약 관리 지침
+
+    ////////////////////////////manager////////////////////////////
     @Override
     public int postContractRule(RuleForm ruleForm) {
         return ruleRepository.postContractRule(ruleForm);
     }
+
+
+    ////////////////////////////handler////////////////////////////
+    @Override
+    public ArrayList<Accident> getAccident() {
+        return accidentRepository.getAccident();
+    }
+
+
+
+
+
 
     public ArrayList<Employee> select() {
         return employeeList;
