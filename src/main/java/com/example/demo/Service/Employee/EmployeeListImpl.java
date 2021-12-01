@@ -3,6 +3,7 @@ package com.example.demo.Service.Employee;
 import com.example.demo.Domain.Accident;
 import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Employee;
+import com.example.demo.Form.AccidentForm;
 import com.example.demo.Form.InsuranceForm;
 import com.example.demo.Form.RuleForm;
 import com.example.demo.Form.SuggestionForm;
@@ -77,13 +78,17 @@ public class EmployeeListImpl implements  EmployeeList {
 
     ////////////////////////////handler////////////////////////////
     @Override
-    public ArrayList<Accident> getAccident() {
-        return accidentRepository.getAccident();
+    public ArrayList<Accident> getAccidentList() {
+        return accidentRepository.getAccidentList();
     }
-
-
-
-
+    @Override
+    public Accident getAccident(int accidentIdx) {
+        return accidentRepository.getAccident(accidentIdx);
+    }
+    @Override
+    public int finishAccident(AccidentForm accidentForm) {
+        return accidentRepository.finishAccident(accidentForm);
+    }
 
 
     public ArrayList<Employee> select() {

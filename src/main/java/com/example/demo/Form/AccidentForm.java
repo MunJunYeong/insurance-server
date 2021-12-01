@@ -12,4 +12,6 @@ public class AccidentForm {
     private int damagePrice;
     private int clientIdx;
     private String insuranceType;
+    private Integer measuredPrice;
+    private int employeeIdx;
 }

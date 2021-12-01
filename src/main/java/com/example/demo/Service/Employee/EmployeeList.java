@@ -3,6 +3,7 @@ package com.example.demo.Service.Employee;
 import com.example.demo.Domain.Accident;
 import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Employee;
+import com.example.demo.Form.AccidentForm;
 import com.example.demo.Form.InsuranceForm;
 import com.example.demo.Form.RuleForm;
 import com.example.demo.Form.SuggestionForm;
@@ -33,9 +34,9 @@ public interface EmployeeList {
     public int postContractRule(RuleForm ruleForm); //계약관리 지침 작성
 
     ////////////////////////////handler////////////////////////////
-    public ArrayList<Accident> getAccident();
-
-
+    public ArrayList<Accident> getAccidentList();
+    public Accident getAccident(int accidentIdx);;
+    public int finishAccident(AccidentForm accidentForm);
 
 
     public ArrayList<Employee> select();
