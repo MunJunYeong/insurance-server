@@ -2,8 +2,12 @@ package com.example.demo.Service.Employee;
 
 import com.example.demo.Domain.Client;
 import com.example.demo.Domain.Employee;
+import com.example.demo.Form.InsuranceForm;
+import com.example.demo.Form.RuleForm;
 import com.example.demo.Form.SuggestionForm;
 import com.example.demo.Repository.EmployeeRepository;
+import com.example.demo.Repository.InsuranceRepository;
+import com.example.demo.Repository.RuleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +19,11 @@ import java.util.ArrayList;
 @Transactional // data 변경하는 부분 이노테이션
 public class EmployeeListImpl implements  EmployeeList {
     private final EmployeeRepository employeeRepository;
-    private final ArrayList<Employee> employeeList;
+    private final RuleRepository ruleRepository;
+    private final InsuranceRepository insuranceRepository;
+
+
+    private final ArrayList<Employee> employeeList;//버려야됨
 
     @Override
     public Employee signIn(String id, String pw) {
@@ -23,7 +31,7 @@ public class EmployeeListImpl implements  EmployeeList {
                 .filter(e -> e.getPw().equals(pw))
                 .orElse(null);
     }
-
+    //salesman
     @Override
     public ArrayList<Client> getAllClient() {
         return employeeRepository.findAllClient();
@@ -32,11 +40,33 @@ public class EmployeeListImpl implements  EmployeeList {
     public int postSuggestion(SuggestionForm suggestionForm) {
         return  employeeRepository.postSuggestion(suggestionForm);
     }
-
-
     @Override
     public int postSubscription(SuggestionForm subscription) {
         return employeeRepository.postSubscription(subscription);
+    }
+    //designer 보험 등록
+    @Override
+    public int postInsurance(InsuranceForm insuranceForm) {
+        return insuranceRepository.postInsurance(insuranceForm);
+    }
+    //uw 인수정책 저장
+    @Override
+    public int postUw(RuleForm ruleForm) {
+        return ruleRepository.postUw(ruleForm);
+    }
+    @Override
+    public ArrayList<Client> getUwClient() {
+        return employeeRepository.findUwClient();
+    }
+    @Override
+    public int postUwClient(int clientIdx) {
+        return employeeRepository.postUwClient(clientIdx);
+    }
+
+    //manager 계약 관리 지침
+    @Override
+    public int postContractRule(RuleForm ruleForm) {
+        return ruleRepository.postContractRule(ruleForm);
     }
 
     public ArrayList<Employee> select() {
@@ -47,9 +77,12 @@ public class EmployeeListImpl implements  EmployeeList {
         return employeeList;
     }
 
-    public void setEmployeeList(ArrayList<Employee> employeeList) {
-//        this.employeeList = employeeList;
-    }
+
+
+
+
+
+
 
     public boolean add(Employee employee) {
         this.employeeList.add(employee);

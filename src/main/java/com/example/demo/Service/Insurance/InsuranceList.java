@@ -12,4 +12,6 @@ public interface InsuranceList {
     public boolean update(String TypeName, String Content, int index);
     public boolean update(String TypeName, int rate, int index);
 
+    //새거는 여기서부터 시작
+
 }

@@ -29,5 +29,4 @@ public class SalesmanController {
         int idx = employeeList.postSubscription(subscription);
         return idx;
     }
-
 }

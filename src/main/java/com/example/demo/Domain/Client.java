@@ -27,6 +27,8 @@ public class Client {
     private String address;
     private Integer age;
     private String sex;
+    private boolean haveSuggest = false;
+    private boolean haveSubscription = false;
 
 
 //    @OneToMany

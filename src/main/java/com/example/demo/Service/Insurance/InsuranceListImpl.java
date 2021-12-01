@@ -2,6 +2,7 @@ package com.example.demo.Service.Insurance;
 
 
 import com.example.demo.Domain.Insurance.Insurance;
+import com.example.demo.Repository.InsuranceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true) // data 변경하는 부분 이노테이션
+@Transactional // data 변경하는 부분 이노테이션
 public class InsuranceListImpl implements InsuranceList {
 
     private final ArrayList<Insurance> insuranceList;
+
+    private final InsuranceRepository insuranceRepository;
 
     @Override
     public ArrayList<Insurance> select() {
