@@ -3,7 +3,7 @@ package com.example.demo.Service.Accident;
 
 import com.example.demo.Domain.Accident;
 import com.example.demo.Form.AccidentForm;
-import com.example.demo.Repository.ClientRepository;
+import com.example.demo.Repository.AccidentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +14,22 @@ import java.util.ArrayList;
 @Service
 @Transactional() // data 변경하는 부분 이노테이션
 public class AccidentListImpl implements AccidentList {
-
     private final ArrayList<Accident> accidentList;
-    private final ClientRepository clientRepository;
+
+    private final AccidentRepository accidentRepository;
 
     public boolean addAccident(AccidentForm accident) {
-        clientRepository.postAccident(accident);
+        accidentRepository.postAccident(accident);
         return true;
     }
+    @Override
+    public ArrayList<Accident> getMyAccident(int clientIdx) {
+        return accidentRepository.getMyAccident(clientIdx);
+    }
+
+
+
+
 
     @Override
     public ArrayList<Accident> select() {

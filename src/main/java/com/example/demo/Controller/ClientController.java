@@ -1,10 +1,13 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Domain.Accident;
 import com.example.demo.Form.AccidentForm;
 import com.example.demo.Service.Accident.AccidentListImpl;
 import com.example.demo.Service.Contract.ContractListImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,14 +24,16 @@ public class ClientController {
 
     @GetMapping("/suggestion")
     public String getSuggestion(@RequestParam("clientIdx")int clientIdx){
-        String suggestion = contractListService.getSuggestion(clientIdx);
-        System.out.println(suggestion);
+        String suggestion = contractListService.getSuggestion(clientIdx);;
         return suggestion;
     }
     @GetMapping("/subscription")
     public String getSubscription(@RequestParam("clientIdx")int clientIdx){
         String subscription = contractListService.getSubscription(clientIdx);
-        System.out.println(subscription);
         return subscription;
+    }
+    @GetMapping("/accidentList")
+    public ArrayList<Accident> getMyAccidentList(@RequestParam("clientIdx")int clientIdx){
+        return accidentListService.getMyAccident(clientIdx);
     }
 }
