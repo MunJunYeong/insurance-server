@@ -1,6 +1,8 @@
 package com.example.demo.Controller.Employee;
 
 import com.example.demo.Domain.Client;
+import com.example.demo.Domain.Contract;
+import com.example.demo.Form.SubscriptionForm;
 import com.example.demo.Form.SuggestionForm;
 import com.example.demo.Service.Employee.EmployeeListImpl;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,22 @@ public class SalesmanController {
         ArrayList<Client> client = employeeList.getAllClient();
         return client;
     }
+    @GetMapping("contractCheckMoney")
+    public ArrayList<Contract> getContractCheckForm(){
+        return employeeList.getContractCheckForm();
+    }
     @PostMapping("/addSuggest")
     public int postSuggestion(@RequestBody SuggestionForm suggestionForm){
-        int idx = employeeList.postSuggestion(suggestionForm);
-        return idx;
+        return employeeList.postSuggestion(suggestionForm);
     }
     @PostMapping("/addSubscription")
     public int postSubscription(@RequestBody SuggestionForm subscription){
-        int idx = employeeList.postSubscription(subscription);
-        return idx;
+        return employeeList.postSubscription(subscription);
+    }
+    //form타입은 새로 만드는게 중복되어서 사용
+    @PostMapping("/finalPayment")
+    public int postFinalPayment(@RequestBody SubscriptionForm form){
+        int contractIdx = form.getContractIdx();
+        return employeeList.postFinalPayment(contractIdx);
     }
 }

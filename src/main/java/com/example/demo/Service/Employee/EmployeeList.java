@@ -2,6 +2,7 @@ package com.example.demo.Service.Employee;
 
 import com.example.demo.Domain.Accident;
 import com.example.demo.Domain.Client;
+import com.example.demo.Domain.Contract;
 import com.example.demo.Domain.Employee;
 import com.example.demo.Form.AccidentForm;
 import com.example.demo.Form.InsuranceForm;
@@ -18,7 +19,8 @@ public interface EmployeeList {
     public ArrayList<Client> getAllClient(); //client정보 가져오기
     public int postSuggestion(SuggestionForm suggestionForm);//제안서 등록하기
     public int postSubscription(SuggestionForm subscription);//청약서 등록하기
-
+    public ArrayList<Contract> getContractCheckForm();
+    public int postFinalPayment(int contractIdx);
 
     ////////////////////////////designer////////////////////////////
     public int postInsurance(InsuranceForm insuranceForm);//보험 만들기

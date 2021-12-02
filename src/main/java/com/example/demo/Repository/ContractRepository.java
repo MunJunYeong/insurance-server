@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -43,9 +44,30 @@ public class ContractRepository {
         System.out.println(contract.getContractIdx());
         return contract.getSubscription();
     }
+    public ArrayList<Contract> getContractCheckForm() {
+        ArrayList<Contract> contractArrayList = (ArrayList<Contract>) findContractAll();
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
+        for (int i =0; i< contractArrayList.size(); i++){
+            if(contractArrayList.get(i).getCheckForm() && !contractArrayList.get(i).getCheckMoney() ){
+                contracts.add(contractArrayList.get(i));
+            }
+        }
+        return contracts;
+    }
+    public int postFinalPayment(int contractIdx) {
+        Contract contract = findContractOne(contractIdx);
+        contract.setCheckMoney(true);
+        return contract.getContractIdx();
+    }
+
+
     private List<Contract> findContractAll() {
         return em.createQuery("select c from Contract c", Contract.class).getResultList();
     }
+    private Contract findContractOne(int contractIdx) {
+        return em.find(Contract.class, contractIdx);
+    }
+
 
 
 }

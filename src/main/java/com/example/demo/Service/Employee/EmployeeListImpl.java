@@ -2,15 +2,13 @@ package com.example.demo.Service.Employee;
 
 import com.example.demo.Domain.Accident;
 import com.example.demo.Domain.Client;
+import com.example.demo.Domain.Contract;
 import com.example.demo.Domain.Employee;
 import com.example.demo.Form.AccidentForm;
 import com.example.demo.Form.InsuranceForm;
 import com.example.demo.Form.RuleForm;
 import com.example.demo.Form.SuggestionForm;
-import com.example.demo.Repository.AccidentRepository;
-import com.example.demo.Repository.EmployeeRepository;
-import com.example.demo.Repository.InsuranceRepository;
-import com.example.demo.Repository.RuleRepository;
+import com.example.demo.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +23,7 @@ public class EmployeeListImpl implements  EmployeeList {
     private final RuleRepository ruleRepository;
     private final InsuranceRepository insuranceRepository;
     private final AccidentRepository accidentRepository;
+    private final ContractRepository contractRepository;
 
 
     private final ArrayList<Employee> employeeList;//버려야됨
@@ -48,6 +47,15 @@ public class EmployeeListImpl implements  EmployeeList {
     public int postSubscription(SuggestionForm subscription) {
         return employeeRepository.postSubscription(subscription);
     }
+    @Override
+    public ArrayList<Contract> getContractCheckForm() {
+        return contractRepository.getContractCheckForm();
+    }
+    @Override
+    public int postFinalPayment(int contractIdx) {
+        return contractRepository.postFinalPayment(contractIdx);
+    }
+
     ////////////////////////////designer////////////////////////////
     @Override
     public int postInsurance(InsuranceForm insuranceForm) {
