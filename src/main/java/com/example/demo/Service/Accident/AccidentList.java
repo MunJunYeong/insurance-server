@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface AccidentList {
     public boolean addAccident(AccidentForm accident);
     public ArrayList<Accident> getMyAccident(int clientIdx);
-
+    public int addLawsuit(AccidentForm accidentForm);
 
 
     public ArrayList<Accident> select();
@@ -18,6 +18,7 @@ public interface AccidentList {
     public boolean update(String TypeName, int Content, int index);
     public int ShowSize();
     public String getAccidentList(int i);
+
 
 
 }

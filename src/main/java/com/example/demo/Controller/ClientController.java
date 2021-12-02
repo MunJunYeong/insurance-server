@@ -36,4 +36,8 @@ public class ClientController {
     public ArrayList<Accident> getMyAccidentList(@RequestParam("clientIdx")int clientIdx){
         return accidentListService.getMyAccident(clientIdx);
     }
+    @PostMapping("/addLawsuit")
+    public int addLawsuit(@RequestBody AccidentForm accidentForm){
+        return accidentListService.addLawsuit(accidentForm);
+    }
 }

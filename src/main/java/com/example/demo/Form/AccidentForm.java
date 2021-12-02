@@ -11,6 +11,7 @@ public class AccidentForm {
     private String date;
     private int damagePrice;
     private int clientIdx;
+    private String lawsuit;
     private String insuranceType;
     private Integer measuredPrice;
     private int employeeIdx;

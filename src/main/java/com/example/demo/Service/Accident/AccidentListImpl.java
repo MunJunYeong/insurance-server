@@ -26,9 +26,10 @@ public class AccidentListImpl implements AccidentList {
     public ArrayList<Accident> getMyAccident(int clientIdx) {
         return accidentRepository.getMyAccident(clientIdx);
     }
-
-
-
+    @Override
+    public int addLawsuit(AccidentForm accidentForm) {
+        return accidentRepository.postLawsuit(accidentForm);
+    }
 
 
     @Override
