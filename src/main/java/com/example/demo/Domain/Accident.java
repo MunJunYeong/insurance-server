@@ -19,6 +19,7 @@ public class Accident {
     private String date;
     private Integer damagePrice;
     private Integer measuredPrice;
+    private String lawsuit;
 
     @ManyToOne
     @JoinColumn(name = "clientIdx")

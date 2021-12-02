@@ -43,6 +43,12 @@ public class AccidentRepository {
         }
         return accidents;
     }
+    //client 소송진행 내용 저장
+    public int postLawsuit(AccidentForm accidentForm) {
+        Accident accident = findAccidentOne(accidentForm.getAccidentIdx());
+        accident.setLawsuit(accidentForm.getLawsuit());
+        return accident.getAccidentIdx();
+    }
     //handler 사고리스트 가져오기
     public ArrayList<Accident> getAccidentList() {
         ArrayList<Accident> accidentArrayList = findAllAccident();
