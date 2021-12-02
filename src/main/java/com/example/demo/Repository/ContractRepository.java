@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -48,7 +49,17 @@ public class ContractRepository {
         ArrayList<Contract> contractArrayList = (ArrayList<Contract>) findContractAll();
         ArrayList<Contract> contracts = new ArrayList<Contract>();
         for (int i =0; i< contractArrayList.size(); i++){
-            if(contractArrayList.get(i).getCheckForm() && !contractArrayList.get(i).getCheckMoney() ){
+            if(contractArrayList.get(i).getCheckForm() && !contractArrayList.get(i).getCheckMoney() && !contractArrayList.get(i).getFinalContract() ){
+                contracts.add(contractArrayList.get(i));
+            }
+        }
+        return contracts;
+    }
+    public ArrayList<Contract> getFinalContract() {
+        ArrayList<Contract> contractArrayList = (ArrayList<Contract>) findContractAll();
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
+        for (int i =0; i< contractArrayList.size(); i++){
+            if(contractArrayList.get(i).getCheckForm() && contractArrayList.get(i).getCheckMoney() && !contractArrayList.get(i).getFinalContract()){
                 contracts.add(contractArrayList.get(i));
             }
         }
@@ -57,6 +68,13 @@ public class ContractRepository {
     public int postFinalPayment(int contractIdx) {
         Contract contract = findContractOne(contractIdx);
         contract.setCheckMoney(true);
+        return contract.getContractIdx();
+    }
+    public int postFinalContract(int contractIdx) {
+        Contract contract = findContractOne(contractIdx);
+        Date date = new Date();
+        contract.setCreated(date);
+        contract.setFinalContract(true);
         return contract.getContractIdx();
     }
 

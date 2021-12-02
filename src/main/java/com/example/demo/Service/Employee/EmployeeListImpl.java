@@ -55,6 +55,15 @@ public class EmployeeListImpl implements  EmployeeList {
     public int postFinalPayment(int contractIdx) {
         return contractRepository.postFinalPayment(contractIdx);
     }
+    @Override
+    public ArrayList<Contract> getFinalContract() {
+        return contractRepository.getFinalContract();
+    }
+    @Override
+    public int postFinalContract(int contractIdx) {
+        return contractRepository.postFinalContract(contractIdx);
+    }
+
 
     ////////////////////////////designer////////////////////////////
     @Override

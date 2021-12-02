@@ -21,6 +21,8 @@ public interface EmployeeList {
     public int postSubscription(SuggestionForm subscription);//청약서 등록하기
     public ArrayList<Contract> getContractCheckForm();
     public int postFinalPayment(int contractIdx);
+    public int postFinalContract(int contractIdx);
+    public ArrayList<Contract> getFinalContract();
 
     ////////////////////////////designer////////////////////////////
     public int postInsurance(InsuranceForm insuranceForm);//보험 만들기

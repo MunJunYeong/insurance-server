@@ -22,6 +22,7 @@ public class Contract {
     private Date created;
     private Boolean checkForm = false;
     private Boolean checkMoney = false;
+    private Boolean finalContract = false;
 
     @ManyToOne
     @JoinColumn(name = "clientIdx")

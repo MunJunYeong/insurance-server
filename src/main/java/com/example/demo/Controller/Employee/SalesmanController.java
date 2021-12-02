@@ -25,6 +25,21 @@ public class SalesmanController {
     public ArrayList<Contract> getContractCheckForm(){
         return employeeList.getContractCheckForm();
     }
+    //form타입은 새로 만드는게 중복되어서 사용
+    @PostMapping("/finalPayment")
+    public int postFinalPayment(@RequestBody SubscriptionForm form){
+        int contractIdx = form.getContractIdx();
+        return employeeList.postFinalPayment(contractIdx);
+    }
+    @GetMapping("getfinalContract")
+    public ArrayList<Contract> getFinalContract(){
+        return employeeList.getFinalContract();
+    }
+    @PostMapping("/finalContract")
+    public int postFinalContract(@RequestBody SubscriptionForm form){
+        int contractIdx = form.getContractIdx();
+        return employeeList.postFinalContract(contractIdx);
+    }
     @PostMapping("/addSuggest")
     public int postSuggestion(@RequestBody SuggestionForm suggestionForm){
         return employeeList.postSuggestion(suggestionForm);
@@ -33,10 +48,5 @@ public class SalesmanController {
     public int postSubscription(@RequestBody SuggestionForm subscription){
         return employeeList.postSubscription(subscription);
     }
-    //form타입은 새로 만드는게 중복되어서 사용
-    @PostMapping("/finalPayment")
-    public int postFinalPayment(@RequestBody SubscriptionForm form){
-        int contractIdx = form.getContractIdx();
-        return employeeList.postFinalPayment(contractIdx);
-    }
+
 }
