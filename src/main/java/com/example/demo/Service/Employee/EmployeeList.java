@@ -9,6 +9,7 @@ import com.example.demo.Form.InsuranceForm;
 import com.example.demo.Form.RuleForm;
 import com.example.demo.Form.SuggestionForm;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public interface EmployeeList {
@@ -36,6 +37,8 @@ public interface EmployeeList {
 
     ////////////////////////////manager////////////////////////////
     public int postContractRule(RuleForm ruleForm); //계약관리 지침 작성
+    public ArrayList<Contract> getExpirationContract() throws ParseException;
+    public int deleteContract(int contractIdx);
 
     ////////////////////////////handler////////////////////////////
     public ArrayList<Accident> getAccidentList();

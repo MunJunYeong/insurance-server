@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 @RequiredArgsConstructor
@@ -91,6 +92,14 @@ public class EmployeeListImpl implements  EmployeeList {
     public int postContractRule(RuleForm ruleForm) {
         return ruleRepository.postContractRule(ruleForm);
     }
+    @Override
+    public ArrayList<Contract> getExpirationContract() throws ParseException {
+        return contractRepository.getExpirationContract();
+    }
+    @Override
+    public int deleteContract(int contractIdx) {
+        return contractRepository.deleteContract(contractIdx);
+    }
 
 
     ////////////////////////////handler////////////////////////////
@@ -106,6 +115,11 @@ public class EmployeeListImpl implements  EmployeeList {
     public int finishAccident(AccidentForm accidentForm) {
         return accidentRepository.finishAccident(accidentForm);
     }
+
+
+
+
+
 
 
     public ArrayList<Employee> select() {

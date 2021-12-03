@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,6 +80,35 @@ public class ContractRepository {
         contract.setFinalContract(true);
         return contract.getContractIdx();
     }
+    public ArrayList<Contract> getExpirationContract() throws ParseException {
+        ArrayList<Contract> contractArrayList = (ArrayList<Contract>) findContractAll();
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
+
+        for (int i =0; i< contractArrayList.size(); i++){
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String insuranceDataString = contractArrayList.get(i).getInsurance().getPeriod();
+
+            Date contractDate = contractArrayList.get(i).getCreated();
+            Date insuranceDate = dateFormat.parse(insuranceDataString);
+            boolean finish= false;
+            if(insuranceDate.after(contractDate)){
+                finish = true; //보험기간이 아직 남아있다.
+            }
+            if(!finish){
+                contracts.add(contractArrayList.get(i));
+            }
+        }
+        return contracts;
+    }
+    public int deleteContract(int contractIdx) {
+        Contract contract = findContractOne(contractIdx);
+        if(contract == null){
+            return 0;
+        }
+        em.remove(contract);
+        return 1;
+    }
+
 
 
     private List<Contract> findContractAll() {
