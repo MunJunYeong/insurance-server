@@ -29,6 +29,30 @@ public class ClientListImpl implements ClientList {
     }
 
     @Override
+    public Client findId(String name, String email) {
+        ArrayList<Client> clientArrayList = (ArrayList<Client>) clientRepository.findAllClient();
+        Client client = new Client();
+        for (int i=0; i < clientArrayList.size(); i++){
+            if(clientArrayList.get(i).getName().equals(name) && clientArrayList.get(i).getEmail().equals(email)){
+                client = clientArrayList.get(i);
+            }
+        }
+        return client;
+    }
+
+    @Override
+    public Client findPw(String id, String email) {
+        ArrayList<Client> clientArrayList = (ArrayList<Client>) clientRepository.findAllClient();
+        Client client = new Client();
+        for (int i=0; i < clientArrayList.size(); i++){
+            if(clientArrayList.get(i).getId().equals(id) && clientArrayList.get(i).getEmail().equals(email)){
+                client = clientArrayList.get(i);
+            }
+        }
+        return client;
+    }
+
+    @Override
     public ArrayList<Client> select() {
         return null;
     }
@@ -43,6 +67,8 @@ public class ClientListImpl implements ClientList {
     public Client getClientData(int customerId) {
         return null;
     }
+
+
 
     @Override
     public boolean update(String TypeName, String Content, int index) {

@@ -74,6 +74,9 @@ public class EmployeeRepository {
         //clientIdx, ContractIdx, employeeIdx, 청약서
         Contract contract = findContractOne(subscription.getContractIdx());
         Client client = findClientOne(subscription.getClientIdx());
+        if(contract == null){
+            return 1;
+        }
         if(client == null){
             return 0;
         }

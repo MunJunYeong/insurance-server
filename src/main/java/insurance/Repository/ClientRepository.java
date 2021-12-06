@@ -20,16 +20,18 @@ public class ClientRepository {
     //로그인 로직
     public Optional<Client> findByLoginId(String loginId){
         //findAll().stream() 루프를 돌면서 찾는다
-        return findAll().stream().filter(
+        return findAllClient().stream().filter(
                 c -> c.getId().equals(loginId))
                 .findFirst();
     }
-    private List<Client> findAll() {
+    public List<Client> findAllClient() {
         return em.createQuery("select c from Client c", Client.class).getResultList();
     }
 
 
-
+//    public Client findByInfo(String name, String email) {
+//
+//    }
 
 
 }

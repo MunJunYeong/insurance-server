@@ -27,7 +27,7 @@ public class SignController {
     @PostMapping("/client/signIn")
     public Client clientSignInForm(@RequestBody LoginForm loginForm){
         Client client = clientService.signIn(loginForm.getId(), loginForm.getPw());
-        log.info("client  {}", client);
+//        log.info("client  {}", client);
         return client;
     }
     @PostMapping("/admin/signIn")
@@ -35,4 +35,15 @@ public class SignController {
         Employee employee = employeeService.signIn(loginForm.getId(), loginForm.getPw());
         return employee;
     }
+    @PostMapping("/findId")
+    public String findId(@RequestBody LoginForm loginForm){
+        Client client = clientService.findId(loginForm.getName(), loginForm.getEmail());
+        return client.getId();
+    }
+    @PostMapping("/findPw")
+    public String findPw(@RequestBody LoginForm loginForm){
+        Client client = clientService.findPw(loginForm.getId(), loginForm.getEmail());
+        return client.getPw();
+    }
+
 }

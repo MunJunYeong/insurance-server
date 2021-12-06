@@ -83,19 +83,24 @@ public class ContractRepository {
     public ArrayList<Contract> getExpirationContract() throws ParseException {
         ArrayList<Contract> contractArrayList = (ArrayList<Contract>) findContractAll();
         ArrayList<Contract> contracts = new ArrayList<Contract>();
-
+        if(contractArrayList == null){
+            return null;
+        }
         for (int i =0; i< contractArrayList.size(); i++){
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             String insuranceDataString = contractArrayList.get(i).getInsurance().getPeriod();
-
-            Date contractDate = contractArrayList.get(i).getCreated();
-            Date insuranceDate = dateFormat.parse(insuranceDataString);
             boolean finish= false;
-            if(insuranceDate.after(contractDate)){
-                finish = true; //보험기간이 아직 남아있다.
-            }
-            if(!finish){
-                contracts.add(contractArrayList.get(i));
+            if(contractArrayList.get(i).getCreated()==null){
+
+            }else{
+                Date contractDate = contractArrayList.get(i).getCreated();
+                Date insuranceDate = dateFormat.parse(insuranceDataString);
+                if(insuranceDate.after(contractDate)){
+                    finish = true; //보험기간이 아직 남아있다.
+                }
+                if(!finish) {
+                    contracts.add(contractArrayList.get(i));
+                }
             }
         }
         return contracts;
