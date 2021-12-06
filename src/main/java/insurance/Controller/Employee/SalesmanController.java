@@ -42,10 +42,17 @@ public class SalesmanController {
     }
     @PostMapping("/addSuggest")
     public int postSuggestion(@RequestBody SuggestionForm suggestionForm){
+        System.out.println(suggestionForm.getContent().length());
+        if(suggestionForm.getContent().length() > 5000000){
+            return -2;
+        }
         return employeeList.postSuggestion(suggestionForm);
     }
     @PostMapping("/addSubscription")
     public int postSubscription(@RequestBody SuggestionForm subscription){
+        if(subscription.getContent().length() > 5000000){
+            return -2;
+        }
         return employeeList.postSubscription(subscription);
     }
 
