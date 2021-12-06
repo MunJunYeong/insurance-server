@@ -45,5 +45,10 @@ public class SignController {
         Client client = clientService.findPw(loginForm.getId(), loginForm.getEmail());
         return client.getPw();
     }
+    @PostMapping("/duplicatedCheckId")
+    public Boolean duplicatedCheckId(@RequestBody LoginForm loginForm){
+        Boolean haveId = clientService.checkId(loginForm.getId());
+        return haveId;
+    }
 
 }

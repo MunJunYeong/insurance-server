@@ -14,9 +14,8 @@ import javax.persistence.EntityManager;
 public class RuleRepository {
     private final EntityManager em;
 
-    public int postUw(RuleForm ruleForm) {
+    public int postUw(RuleForm ruleForm, Employee employee) {
         UwRule uwRule = new UwRule();
-        Employee employee = findEmployeeOne(ruleForm.getEmployeeIdx());
         uwRule.setEmployee(employee);
         uwRule.setUwEstablish(ruleForm.getContent());
         em.persist(uwRule);

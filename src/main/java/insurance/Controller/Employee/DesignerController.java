@@ -2,7 +2,6 @@ package insurance.Controller.Employee;
 
 import insurance.Form.InsuranceForm;
 import insurance.Service.Employee.EmployeeListImpl;
-import insurance.Service.Insurance.InsuranceListImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/designer")
 public class DesignerController {
-    private final InsuranceListImpl insuranceList;
     private final EmployeeListImpl employeeList;
 
     @PostMapping("/car")

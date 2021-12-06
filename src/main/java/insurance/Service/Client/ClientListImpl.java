@@ -53,40 +53,15 @@ public class ClientListImpl implements ClientList {
     }
 
     @Override
-    public ArrayList<Client> select() {
-        return null;
+    public Boolean checkId(String id) {
+        ArrayList<Client> clientArrayList = (ArrayList<Client>) clientRepository.findAllClient();
+        Boolean haveId = false;
+        for(int i =0 ; i< clientArrayList.size(); i++){
+            if(clientArrayList.get(i).getId().equals(id)){
+                haveId = true;
+            }
+        }
+        return haveId;
     }
 
-
-    @Override
-    public boolean delete(int customerId) {
-        return false;
-    }
-
-    @Override
-    public Client getClientData(int customerId) {
-        return null;
-    }
-
-
-
-    @Override
-    public boolean update(String TypeName, String Content, int index) {
-        return false;
-    }
-
-    @Override
-    public boolean update(String TypeName, int Content, int index) {
-        return false;
-    }
-
-    @Override
-    public int ShowSize() {
-        return 0;
-    }
-
-    @Override
-    public String getCustomerList(int i) {
-        return null;
-    }
 }

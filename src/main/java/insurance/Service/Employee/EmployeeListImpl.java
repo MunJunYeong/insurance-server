@@ -4,6 +4,7 @@ import insurance.Domain.Accident;
 import insurance.Domain.Client;
 import insurance.Domain.Contract;
 import insurance.Domain.Employee;
+import insurance.Domain.Insurance.Insurance;
 import insurance.Form.AccidentForm;
 import insurance.Form.InsuranceForm;
 import insurance.Form.RuleForm;
@@ -13,21 +14,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 @Transactional // data 변경하는 부분 이노테이션
 public class EmployeeListImpl implements  EmployeeList {
+
     private final EmployeeRepository employeeRepository;
     private final RuleRepository ruleRepository;
     private final InsuranceRepository insuranceRepository;
     private final AccidentRepository accidentRepository;
     private final ContractRepository contractRepository;
 
-
-    private final ArrayList<Employee> employeeList;//버려야됨
 
     @Override
     public Employee signIn(String id, String pw) {
@@ -42,27 +46,66 @@ public class EmployeeListImpl implements  EmployeeList {
     }
     @Override
     public int postSuggestion(SuggestionForm suggestionForm) {
-        return  employeeRepository.postSuggestion(suggestionForm);
+        Client client = employeeRepository.findClientOne(suggestionForm.getClientIdx());
+        Employee employee = employeeRepository.findEmployeeOne(suggestionForm.getEmployeeIdx());
+        Optional<Insurance> insurance = employeeRepository.findByType(suggestionForm.getInsuranceType());
+        if(client == null){
+            return 0;
+        }
+        if(client.isHaveSuggest()){
+            return -1;
+        }
+        return  employeeRepository.postSuggestion(suggestionForm, client, employee, insurance);
     }
     @Override
     public int postSubscription(SuggestionForm subscription) {
-        return employeeRepository.postSubscription(subscription);
+        Contract contract = employeeRepository.findContractOne(subscription.getContractIdx());
+        Client client = employeeRepository.findClientOne(subscription.getClientIdx());
+        if(contract == null){
+            return 1;
+        }
+        if(client == null){
+            return 0;
+        }
+        if(!client.isHaveSuggest()){
+            return -1;
+        }
+        if(client.isHaveSubscription()){
+            return -2;
+        }
+        return employeeRepository.postSubscription(subscription, contract, client);
     }
     @Override
     public ArrayList<Contract> getContractCheckForm() {
-        return contractRepository.getContractCheckForm();
+        ArrayList<Contract> contractArrayList = (ArrayList<Contract>) contractRepository.findContractAll();
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
+        for (int i =0; i< contractArrayList.size(); i++){
+            if(contractArrayList.get(i).getCheckForm() && !contractArrayList.get(i).getCheckMoney() && !contractArrayList.get(i).getFinalContract() ){
+                contracts.add(contractArrayList.get(i));
+            }
+        }
+        return contracts;
     }
     @Override
     public int postFinalPayment(int contractIdx) {
-        return contractRepository.postFinalPayment(contractIdx);
+        Contract contract = contractRepository.findContractOne(contractIdx);
+        return contractRepository.postFinalPayment(contract);
     }
     @Override
     public ArrayList<Contract> getFinalContract() {
-        return contractRepository.getFinalContract();
+        ArrayList<Contract> contractArrayList = (ArrayList<Contract>) contractRepository.findContractAll();
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
+        for (int i =0; i< contractArrayList.size(); i++){
+            if(contractArrayList.get(i).getCheckForm() && contractArrayList.get(i).getCheckMoney() && !contractArrayList.get(i).getFinalContract()){
+                contracts.add(contractArrayList.get(i));
+            }
+        }
+        return contracts;
     }
     @Override
     public int postFinalContract(int contractIdx) {
-        return contractRepository.postFinalContract(contractIdx);
+        Contract contract = contractRepository.findContractOne(contractIdx);
+        return contractRepository.postFinalContract(contract);
     }
 
 
@@ -75,15 +118,30 @@ public class EmployeeListImpl implements  EmployeeList {
     ////////////////////////////uw////////////////////////////
     @Override
     public int postUw(RuleForm ruleForm) {
-        return ruleRepository.postUw(ruleForm);
+        Employee employee = ruleRepository.findEmployeeOne(ruleForm.getEmployeeIdx());
+        return ruleRepository.postUw(ruleForm,employee);
     }
-    @Override
+    @Override //UW 고객 찾기
     public ArrayList<Client> getUwClient() {
-        return employeeRepository.findUwClient();
+        ArrayList<Contract> contractArrayList = employeeRepository.findAllContract();
+        ArrayList<Client> clientArrayList = new ArrayList<Client>();
+        for(int i =0; i < contractArrayList.size(); i++){
+            if(contractArrayList.get(i).getSubscription() !=null && contractArrayList.get(i).getSubscription() !=null && !contractArrayList.get(i).getCheckForm()){
+                clientArrayList.add(contractArrayList.get(i).getClient());
+            }
+        }
+        return clientArrayList;
     }
     @Override
     public int postUwClient(int clientIdx) {
-        return employeeRepository.postUwClient(clientIdx);
+        ArrayList<Contract> contractArrayList = employeeRepository.findAllContract();
+        Contract contract = new Contract();
+        for(int i =0; i < contractArrayList.size(); i++){
+            if(contractArrayList.get(i).getClient().getClientIdx() == clientIdx){
+                contract = contractArrayList.get(i);
+            }
+        }
+        return employeeRepository.postUwClient(clientIdx, contract);
     }
 
 
@@ -94,112 +152,62 @@ public class EmployeeListImpl implements  EmployeeList {
     }
     @Override
     public ArrayList<Contract> getExpirationContract() throws ParseException {
-        return contractRepository.getExpirationContract();
+        ArrayList<Contract> contractArrayList = (ArrayList<Contract>) contractRepository.findContractAll();
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
+        if(contractArrayList == null){
+            return null;
+        }
+        for (int i =0; i< contractArrayList.size(); i++){
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String insuranceDataString = contractArrayList.get(i).getInsurance().getPeriod();
+            boolean finish= false;
+            if(contractArrayList.get(i).getCreated()==null){
+
+            }else{
+                Date contractDate = contractArrayList.get(i).getCreated();
+                Date insuranceDate = dateFormat.parse(insuranceDataString);
+                if(insuranceDate.after(contractDate)){
+                    finish = true; //보험기간이 아직 남아있다.
+                }
+                if(!finish) {
+                    contracts.add(contractArrayList.get(i));
+                }
+            }
+        }
+        return contracts;
     }
     @Override
     public int deleteContract(int contractIdx) {
-        return contractRepository.deleteContract(contractIdx);
+        Contract contract = contractRepository.findContractOne(contractIdx);
+        return contractRepository.deleteContract(contract);
     }
 
 
     ////////////////////////////handler////////////////////////////
-    @Override
+    @Override  //handler 사고리스트 가져오기
     public ArrayList<Accident> getAccidentList() {
-        return accidentRepository.getAccidentList();
+        ArrayList<Accident> accidentArrayList = accidentRepository.findAllAccident();
+        ArrayList<Accident> accidents = new ArrayList<Accident>();
+        for(int i=0; i< accidentArrayList.size(); i++){
+            if(accidentArrayList.get(i).getEmployee() == null){
+                accidents.add(accidentArrayList.get(i));
+            }
+        }
+        return accidents;
     }
     @Override
     public Accident getAccident(int accidentIdx) {
-        return accidentRepository.getAccident(accidentIdx);
+        Accident accident = accidentRepository.findAccidentOne(accidentIdx);
+        return accident;
     }
     @Override
     public int finishAccident(AccidentForm accidentForm) {
-        return accidentRepository.finishAccident(accidentForm);
+        Accident accident = accidentRepository.findAccidentOne(accidentForm.getAccidentIdx());
+        Employee employee = accidentRepository.findEmployeeOne(accidentForm.getEmployeeIdx());
+        return accidentRepository.finishAccident(accidentForm, accident, employee);
     }
 
 
-
-
-
-
-
-    public ArrayList<Employee> select() {
-        return employeeList;
-    }
-
-    public ArrayList<Employee> getEmployeeList() {
-        return employeeList;
-    }
-
-
-
-
-
-
-
-
-    public boolean add(Employee employee) {
-        this.employeeList.add(employee);
-        return true;
-    }
-
-    public boolean delete(int employeeNumber) {
-        this.employeeList.remove(employeeNumber);
-        return true;
-    }
-
-    public Employee search(int employeeNumber) {
-        return this.employeeList.get(employeeNumber);
-    }
-
-    public int ShowSize() {
-        return this.employeeList.size();
-    }
-
-    @Override
-    public boolean update(String TypeName, String Content, int index) {
-        employeeList.get(index);
-        switch (TypeName) {
-            case "ID":
-                employeeList.get(index).setId(Content);
-                return true;
-            case "name":
-                employeeList.get(index).setName(Content);
-                return true;
-            case "password":
-                employeeList.get(index).setPw(Content);
-                return true;
-            case "email_address":
-//                employeeList.get(index).setEmailAddress(Content);
-                return true;
-            case "position":
-//                employeeList.get(index).setPosition(Content);
-                return true;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean update(String TypeName, int Content, int index) {
-        employeeList.get(index);
-        switch (TypeName) {
-
-            case "phone_number":
-//                employeeList.get(index).setPhoneNumber(Content);
-                return true;
-            case "personal_registration_number":
-//                employeeList.get(index).setPersonalRegistrationNumber(Content);
-                return true;
-        }
-        return true;
-    }
-
-    @Override
-    public String getEmployeeList(int i) {
-//        String List = this.employeeList.get(i).getEmployeeIdx() + " / "+this.employeeList.get(i).getName() + " / " + this.employeeList.get(i).getPhoneNumber() + " / "
-//                + this.employeeList.get(i).getEmailAddress() + " / " + this.employeeList.get(i).getPosition();
-//        return List;
-        return null;
-    }
 
 
 }

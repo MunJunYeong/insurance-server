@@ -46,15 +46,6 @@ public interface EmployeeList {
     public int finishAccident(AccidentForm accidentForm);
 
 
-    public ArrayList<Employee> select();
-
-    public boolean add(Employee employee);
-    public boolean delete(int employee_number);
-    public Employee search(int employee_number);
-    public boolean update(String TypeName, String Content, int index);
-    public boolean update(String TypeName, int Content, int index);
-    public int ShowSize();
-    public String getEmployeeList(int index);
 
 
 
