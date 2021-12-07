@@ -1,6 +1,9 @@
 package insurance.Service.Client;
 
 import insurance.Domain.Client;
+import insurance.Domain.Insurance.Insurance;
+
+import java.util.ArrayList;
 
 public interface ClientList {
     public String signUp(Client client);
@@ -10,5 +13,7 @@ public interface ClientList {
     public Client findId(String name, String email);
     public Client findPw(String id, String email);
 
-    Boolean checkId(String id);
+    public Boolean checkId(String id);
+
+    public ArrayList<Insurance> getAllInsurance();
 }

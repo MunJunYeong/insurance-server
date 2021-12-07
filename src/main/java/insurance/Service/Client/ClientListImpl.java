@@ -2,7 +2,9 @@ package insurance.Service.Client;
 
 
 import insurance.Domain.Client;
+import insurance.Domain.Insurance.Insurance;
 import insurance.Repository.ClientRepository;
+import insurance.Repository.InsuranceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 @Transactional(readOnly = true) // data 변경하는 부분 이노테이션
 public class ClientListImpl implements ClientList {
     private final ClientRepository clientRepository;
+    private final InsuranceRepository insuranceRepository;
 
     @Transactional
     @Override
@@ -62,6 +65,11 @@ public class ClientListImpl implements ClientList {
             }
         }
         return haveId;
+    }
+
+    @Override
+    public ArrayList<Insurance> getAllInsurance() {
+        return insuranceRepository.findAllInsurance();
     }
 
 }

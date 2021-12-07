@@ -1,15 +1,13 @@
 package insurance.Repository;
 
 import insurance.Domain.Employee;
-import insurance.Domain.Insurance.Car;
-import insurance.Domain.Insurance.Fire;
-import insurance.Domain.Insurance.Industrial;
-import insurance.Domain.Insurance.Life;
+import insurance.Domain.Insurance.*;
 import insurance.Form.InsuranceForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 
 @Repository
 @RequiredArgsConstructor
@@ -89,5 +87,10 @@ public class InsuranceRepository {
     }
 
 
+
+
+    public ArrayList<Insurance> findAllInsurance() {
+        return (ArrayList<Insurance>) em.createQuery("select i from Insurance i", Insurance.class).getResultList();
+    }
 }
 
