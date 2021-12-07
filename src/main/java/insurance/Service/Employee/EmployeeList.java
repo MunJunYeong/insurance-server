@@ -9,6 +9,8 @@ import insurance.Form.InsuranceForm;
 import insurance.Form.RuleForm;
 import insurance.Form.SuggestionForm;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -22,9 +24,9 @@ public interface EmployeeList {
     public int postSubscription(SuggestionForm subscription);//청약서 등록하기
     public ArrayList<Contract> getContractCheckForm();
     public int postFinalPayment(int contractIdx);
-    public int postFinalContract(int contractIdx);
+    public int postFinalContract(int contractIdx) throws MessagingException, UnsupportedEncodingException;
     public ArrayList<Contract> getFinalContract();
-    public Contract sendMailData(int contractIdx);
+    public Contract sendMailData(int contractIdx) throws MessagingException, UnsupportedEncodingException;
 
     ////////////////////////////designer////////////////////////////
     public int postInsurance(InsuranceForm insuranceForm);//보험 만들기

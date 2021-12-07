@@ -11,9 +11,14 @@ import insurance.Form.RuleForm;
 import insurance.Form.SuggestionForm;
 import insurance.Repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +38,7 @@ public class EmployeeListImpl implements  EmployeeList {
     private final ContractRepository contractRepository;
     private final ClientRepository clientRepository;
 
+    private final JavaMailSender javaMailSender;
 
     @Override
     public Employee signIn(String id, String pw) {
@@ -104,11 +110,25 @@ public class EmployeeListImpl implements  EmployeeList {
         return contracts;
     }
     @Override
-    public Contract sendMailData(int contractIdx) {
+    public Contract sendMailData(int contractIdx) throws MessagingException, UnsupportedEncodingException {
+        Contract contract = contractRepository.findContractOne(contractIdx);
+        //메일 보내기
+        String to = contract.getClient().getEmail();
+        String from = "msw711666@naver.com";
+        String subject = "신동아화재 보험회사 계약 완료 청약서입니다";
+        StringBuilder body = new StringBuilder();
+        body.append(contract.getSubscription());
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
+        mimeMessageHelper.setFrom(from,"신동아화재 보험회사");
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setText(body.toString(), true);
+        javaMailSender.send(message);
         return contractRepository.findContractOne(contractIdx);
     }
     @Override
-    public int postFinalContract(int contractIdx) {
+    public int postFinalContract(int contractIdx){
         Contract contract = contractRepository.findContractOne(contractIdx);
         return contractRepository.postFinalContract(contract);
     }

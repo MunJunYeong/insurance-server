@@ -8,6 +8,8 @@ import insurance.Service.Employee.EmployeeListImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 @RequiredArgsConstructor
@@ -31,10 +33,11 @@ public class SalesmanController {
         int contractIdx = form.getContractIdx();
         return employeeList.postFinalPayment(contractIdx);
     }
-    @GetMapping("getfinalContract")
+    @GetMapping("getFinalContract")
     public ArrayList<Contract> getFinalContract(){
         return employeeList.getFinalContract();
     }
+
     @PostMapping("/finalContract")
     public int postFinalContract(@RequestBody SubscriptionForm form){
         int contractIdx = form.getContractIdx();
@@ -54,8 +57,9 @@ public class SalesmanController {
         }
         return employeeList.postSubscription(subscription);
     }
+
     @PostMapping("/sendMail")
-    public Contract sendMailData(@RequestBody SuggestionForm suggestionForm){
+    public Contract sendMailData(@RequestBody SuggestionForm suggestionForm) throws MessagingException, UnsupportedEncodingException {
         return employeeList.sendMailData(suggestionForm.getContractIdx());
     }
 
