@@ -30,8 +30,4 @@ public class ManagerController {
         return employeeList.deleteContract(contractIdx);
     }
 
-//    @PostMapping("/CreateTestGuidelines")
-//    public void createTestGuideline(@RequestParam String guideline) {
-//        TestGuidelines.add(guideline);
-//    }
 }

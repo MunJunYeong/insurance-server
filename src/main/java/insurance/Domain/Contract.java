@@ -17,7 +17,9 @@ public class Contract {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int contractIdx;
 
+    @Column(length = 5000000)
     private String suggestion;
+    @Column(length = 5000000)
     private String subscription;
     private Date created;
     private Boolean checkForm = false;

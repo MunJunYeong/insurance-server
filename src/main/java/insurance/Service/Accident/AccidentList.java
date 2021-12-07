@@ -11,13 +11,6 @@ public interface AccidentList {
     public int addLawsuit(AccidentForm accidentForm);
 
 
-    public ArrayList<Accident> select();
-    public boolean delete(int accidentId);
-    public Accident search(int accidentId);
-    public boolean update(String TypeName, String Content, int index);
-    public boolean update(String TypeName, int Content, int index);
-    public int ShowSize();
-    public String getAccidentList(int i);
 
 
 

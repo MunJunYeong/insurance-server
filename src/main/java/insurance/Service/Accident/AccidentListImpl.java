@@ -2,6 +2,8 @@ package insurance.Service.Accident;
 
 
 import insurance.Domain.Accident;
+import insurance.Domain.Client;
+import insurance.Domain.Insurance.Insurance;
 import insurance.Form.AccidentForm;
 import insurance.Repository.AccidentRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,86 +22,31 @@ public class AccidentListImpl implements AccidentList {
     private final AccidentRepository accidentRepository;
 
     public boolean addAccident(AccidentForm accident) {
-        accidentRepository.postAccident(accident);
+        Client client = accidentRepository.findOne(accident.getClientIdx());
+        Optional<Insurance> insurance = accidentRepository.findByType(accident.getInsuranceType());
+        accidentRepository.postAccident(accident, client, insurance);
         return true;
     }
-    @Override
+    @Override  //client 사고리스트 가져오기
     public ArrayList<Accident> getMyAccident(int clientIdx) {
-        return accidentRepository.getMyAccident(clientIdx);
+        ArrayList<Accident> accidentArrayList = accidentRepository.findAllAccident();
+        ArrayList<Accident> accidents = new ArrayList<Accident>();
+        for(int i=0; i< accidentArrayList.size(); i++){
+            if(accidentArrayList.get(i).getClient().getClientIdx() == clientIdx){
+                accidents.add(accidentArrayList.get(i));
+            }
+        }
+        return accidents;
     }
+    //client 소송진행 내용 저장
     @Override
     public int addLawsuit(AccidentForm accidentForm) {
-        return accidentRepository.postLawsuit(accidentForm);
-    }
-
-
-    @Override
-    public ArrayList<Accident> select() {
-        return accidentList;
-    }
-
-    public Accident search(int accidentId) {
-        return accidentList.get(accidentId);
-    }
-
-    public boolean delete(int accidentId) {
-        this.accidentList.remove(accidentId);
-        return true;
+        Accident accident = accidentRepository.findAccidentOne(accidentForm.getAccidentIdx());
+        return accidentRepository.postLawsuit(accidentForm, accident);
     }
 
 
 
-    public int ShowSize() {
-        return this.accidentList.size();
-    }
 
-    public boolean update(String TypeName, String Content, int index) {
-        switch (TypeName) {
-
-            case "accidentDate":
-//                accidentList.get(index).setDate(Content);
-                return true;
-            case "kindsOfAccident":
-//                accidentList.get(index).setKindsOfAccident(Content);
-                return true;
-
-        }
-        return true;
-    }
-
-    public boolean update(String TypeName, int Content, int index) {
-        switch (TypeName) {
-
-            case "accidentTime":
-//                accidentList.get(index).setDate(Content);
-                return true;
-            case "amountOfDamage":
-                accidentList.get(index).setDamagePrice(Content);
-                return true;
-            case "calculatedInsuranceFee":
-//                accidentList.get(index).setCalculatedInsuranceFee(Content);
-                return true;
-            case "customerId":
-//                accidentList.get(index).setClientIdx(Content);
-                return true;
-            case "contractId":
-//                accidentList.get(index).setContractId(Content);
-                return true;
-            case "customerRegistrationNumber":
-//                accidentList.get(index).setCustomerRegistrationNumber(Content);
-                return true;
-        }
-        return true;
-    }
-
-    public String getAccidentList(int i) {
-//        String List = this.accidentList.get(i).getAccidentIdx() + " / " + this.accidentList.get(i).getContractId() + " / "
-//                + this.accidentList.get(i).getDate() + " / " + this.accidentList.get(i).getAccidentTime()
-//                + " / " + this.accidentList.get(i).getAmountOfDamage() + " / "
-//                + this.accidentList.get(i).getMeasuredPrice() + " / " + this.accidentList.get(i).getCustomerId()
-//                + " / " + this.accidentList.get(i).getCustomerRegistrationNumber()+ " / " + this.accidentList.get(i).getKindsOfAccident();
-//        return List;
-        return null;
-    }
 
 }

@@ -2,7 +2,9 @@ package insurance.Service.Client;
 
 
 import insurance.Domain.Client;
+import insurance.Domain.Insurance.Insurance;
 import insurance.Repository.ClientRepository;
+import insurance.Repository.InsuranceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 @Transactional(readOnly = true) // data 변경하는 부분 이노테이션
 public class ClientListImpl implements ClientList {
     private final ClientRepository clientRepository;
+    private final InsuranceRepository insuranceRepository;
 
     @Transactional
     @Override
@@ -53,40 +56,20 @@ public class ClientListImpl implements ClientList {
     }
 
     @Override
-    public ArrayList<Client> select() {
-        return null;
-    }
-
-
-    @Override
-    public boolean delete(int customerId) {
-        return false;
-    }
-
-    @Override
-    public Client getClientData(int customerId) {
-        return null;
-    }
-
-
-
-    @Override
-    public boolean update(String TypeName, String Content, int index) {
-        return false;
+    public Boolean checkId(String id) {
+        ArrayList<Client> clientArrayList = (ArrayList<Client>) clientRepository.findAllClient();
+        Boolean haveId = false;
+        for(int i =0 ; i< clientArrayList.size(); i++){
+            if(clientArrayList.get(i).getId().equals(id)){
+                haveId = true;
+            }
+        }
+        return haveId;
     }
 
     @Override
-    public boolean update(String TypeName, int Content, int index) {
-        return false;
+    public ArrayList<Insurance> getAllInsurance() {
+        return insuranceRepository.findAllInsurance();
     }
 
-    @Override
-    public int ShowSize() {
-        return 0;
-    }
-
-    @Override
-    public String getCustomerList(int i) {
-        return null;
-    }
 }

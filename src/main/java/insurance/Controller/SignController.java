@@ -2,14 +2,18 @@ package insurance.Controller;
 
 import insurance.Domain.Client;
 import insurance.Domain.Employee;
+import insurance.Domain.Insurance.Insurance;
 import insurance.Form.LoginForm;
 import insurance.Service.Client.ClientListImpl;
 import insurance.Service.Employee.EmployeeListImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,6 +48,15 @@ public class SignController {
     public String findPw(@RequestBody LoginForm loginForm){
         Client client = clientService.findPw(loginForm.getId(), loginForm.getEmail());
         return client.getPw();
+    }
+    @PostMapping("/duplicatedCheckId")
+    public Boolean duplicatedCheckId(@RequestBody LoginForm loginForm){
+        Boolean haveId = clientService.checkId(loginForm.getId());
+        return haveId;
+    }
+    @GetMapping("/insurance") //모두가 볼 수 있기에 사인컨트롤러로, 서비스는 클라이언트를 위한거기에 클라이언트 서비스로
+    public ArrayList<Insurance> getAllInsurance(){
+        return clientService.getAllInsurance();
     }
 
 }
