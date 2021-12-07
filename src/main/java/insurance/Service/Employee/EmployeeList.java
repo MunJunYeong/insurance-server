@@ -24,6 +24,7 @@ public interface EmployeeList {
     public int postFinalPayment(int contractIdx);
     public int postFinalContract(int contractIdx);
     public ArrayList<Contract> getFinalContract();
+    public Contract sendMailData(int contractIdx);
 
     ////////////////////////////designer////////////////////////////
     public int postInsurance(InsuranceForm insuranceForm);//보험 만들기
@@ -44,8 +45,6 @@ public interface EmployeeList {
     public ArrayList<Accident> getAccidentList();
     public Accident getAccident(int accidentIdx);;
     public int finishAccident(AccidentForm accidentForm);
-
-
 
 
 

@@ -27,6 +27,9 @@ public class ClientRepository {
     public List<Client> findAllClient() {
         return em.createQuery("select c from Client c", Client.class).getResultList();
     }
+    public Client findClientOne(int idx) {
+        return em.find(Client.class, idx);
+    }
 
 
 //    public Client findByInfo(String name, String email) {

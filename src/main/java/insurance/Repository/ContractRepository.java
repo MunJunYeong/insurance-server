@@ -51,6 +51,8 @@ public class ContractRepository {
     public int postFinalContract(Contract contract) {
         Date date = new Date();
         contract.setCreated(date);
+        contract.getClient().setHaveSuggest(false);
+        contract.getClient().setHaveSubscription(false);
         contract.setFinalContract(true);
         return contract.getContractIdx();
     }

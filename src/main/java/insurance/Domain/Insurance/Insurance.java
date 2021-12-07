@@ -20,6 +20,7 @@ public abstract class Insurance {
     private String restriction;
     private String period;
     private Integer fee;
+    @Column(length = 5000000)
     private String guaranteedContent;
     private Integer rate;
     private Integer maximumReward;

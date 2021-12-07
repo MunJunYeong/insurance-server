@@ -53,9 +53,7 @@ public class EmployeeRepository {
                         i -> i.getDecriminatorValue().equals(insuranceType))
                 .findFirst();
     }
-    public Client findClientOne(int idx) {
-        return em.find(Client.class, idx);
-    }
+
     public Employee findEmployeeOne(int idx){
         return em.find(Employee.class, idx);
     }
@@ -66,9 +64,7 @@ public class EmployeeRepository {
         client.setHaveSubscription(true);
         return contract.getContractIdx();
     }
-    public Contract findContractOne(int idx){
-        return em.find(Contract.class, idx);
-    }
+
 
 
     //모든 Contract

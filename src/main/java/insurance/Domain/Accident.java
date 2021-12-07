@@ -15,6 +15,7 @@ public class Accident {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int accidentIdx;
+    @Column(length = 5000000)
     private String content;
     private String date;
     private Integer damagePrice;

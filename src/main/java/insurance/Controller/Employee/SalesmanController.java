@@ -42,7 +42,6 @@ public class SalesmanController {
     }
     @PostMapping("/addSuggest")
     public int postSuggestion(@RequestBody SuggestionForm suggestionForm){
-        System.out.println(suggestionForm.getContent().length());
         if(suggestionForm.getContent().length() > 5000000){
             return -2;
         }
@@ -51,9 +50,13 @@ public class SalesmanController {
     @PostMapping("/addSubscription")
     public int postSubscription(@RequestBody SuggestionForm subscription){
         if(subscription.getContent().length() > 5000000){
-            return -2;
+            return -4;
         }
         return employeeList.postSubscription(subscription);
+    }
+    @PostMapping("/sendMail")
+    public Contract sendMailData(@RequestBody SuggestionForm suggestionForm){
+        return employeeList.sendMailData(suggestionForm.getContractIdx());
     }
 
 }

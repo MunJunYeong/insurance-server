@@ -1,5 +1,6 @@
 package insurance.Repository;
 
+import insurance.Domain.Contract;
 import insurance.Domain.Employee;
 import insurance.Domain.Insurance.*;
 import insurance.Form.InsuranceForm;
@@ -86,7 +87,9 @@ public class InsuranceRepository {
         return em.find(Employee.class, idx);
     }
 
-
+    public Contract findContractOne(int idx){
+        return em.find(Contract.class, idx);
+    }
 
 
     public ArrayList<Insurance> findAllInsurance() {

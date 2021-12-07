@@ -31,6 +31,7 @@ public class EmployeeListImpl implements  EmployeeList {
     private final InsuranceRepository insuranceRepository;
     private final AccidentRepository accidentRepository;
     private final ContractRepository contractRepository;
+    private final ClientRepository clientRepository;
 
 
     @Override
@@ -46,7 +47,7 @@ public class EmployeeListImpl implements  EmployeeList {
     }
     @Override
     public int postSuggestion(SuggestionForm suggestionForm) {
-        Client client = employeeRepository.findClientOne(suggestionForm.getClientIdx());
+        Client client = clientRepository.findClientOne(suggestionForm.getClientIdx());
         Employee employee = employeeRepository.findEmployeeOne(suggestionForm.getEmployeeIdx());
         Optional<Insurance> insurance = employeeRepository.findByType(suggestionForm.getInsuranceType());
         if(client == null){
@@ -59,10 +60,10 @@ public class EmployeeListImpl implements  EmployeeList {
     }
     @Override
     public int postSubscription(SuggestionForm subscription) {
-        Contract contract = employeeRepository.findContractOne(subscription.getContractIdx());
-        Client client = employeeRepository.findClientOne(subscription.getClientIdx());
+        Contract contract = contractRepository.findContractOne(subscription.getContractIdx());
+        Client client = clientRepository.findClientOne(subscription.getClientIdx());
         if(contract == null){
-            return 1;
+            return -3;
         }
         if(client == null){
             return 0;
@@ -101,6 +102,10 @@ public class EmployeeListImpl implements  EmployeeList {
             }
         }
         return contracts;
+    }
+    @Override
+    public Contract sendMailData(int contractIdx) {
+        return contractRepository.findContractOne(contractIdx);
     }
     @Override
     public int postFinalContract(int contractIdx) {

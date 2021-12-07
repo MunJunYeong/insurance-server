@@ -40,4 +40,5 @@ public class ClientController {
     public int addLawsuit(@RequestBody AccidentForm accidentForm){
         return accidentListService.addLawsuit(accidentForm);
     }
+
 }

@@ -14,7 +14,7 @@ public class UwRule {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int ruleIdx;
-
+    @Column(length = 5000000)
     private String uwEstablish;
 
     @ManyToOne
